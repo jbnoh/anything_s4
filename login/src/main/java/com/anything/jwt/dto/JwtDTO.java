@@ -14,10 +14,7 @@ import lombok.NoArgsConstructor;
 public class JwtDTO {
 
 	private String accessToken;
-
 	private String refreshToken;
-
 	private Long refreshExpire;
-
 	private UserType userType;
 }

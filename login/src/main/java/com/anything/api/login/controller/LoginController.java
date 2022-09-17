@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anything.api.login.service.LoginService;
-import com.anything.dto.login.LoginDTO;
+import com.anything.dto.login.LoginParamDTO;
 import com.anything.jwt.dto.JwtDTO;
 import com.anything.response.ApiResponse;
 
@@ -23,15 +23,15 @@ public class LoginController {
 	private final LoginService loginService;
 
 	@PostMapping
-	public ResponseEntity<?> login(@RequestBody LoginDTO loginDto) throws Exception {
+	public ResponseEntity<?> login(@RequestBody LoginParamDTO param) throws Exception {
 
-		JwtDTO jwtDto = loginService.login(loginDto);
+		JwtDTO jwtDto = loginService.login(param);
 
 		ApiResponse response = new ApiResponse(HttpStatus.OK, jwtDto);
 		return new ResponseEntity<>(response, response.getStatus());
 	}
 
-	@PostMapping("/refresh")
+	@GetMapping("/refresh")
 	public ResponseEntity<?> refresh() throws Exception {
 
 		JwtDTO jwtDto = loginService.refresh();

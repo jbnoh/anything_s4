@@ -33,7 +33,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
 		registry.addInterceptor(authInterceptor)
 				.excludePathPatterns(excludeSystem)
-				.excludePathPatterns("/api/v1/login/**", "/api/v1/user/save");
+				.excludePathPatterns("/api/v1/login/**");
 	}
 
 	@Override

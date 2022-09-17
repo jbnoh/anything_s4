@@ -2,6 +2,7 @@ package com.anything.exception.handler;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,10 +45,18 @@ public class GlobalExceptionHandler {
 
 	private ResponseEntity<?> resultResponse(HttpServletRequest req, HttpStatus status, String message, Object resultObj) {
 
-		DataMap body = new DataMap();
-		body.put("params", RequestUtil.getParams(req));
+		DataMap body = null;
+
+		DataMap params = RequestUtil.getParams(req);
+		if (ObjectUtils.isNotEmpty(params)) {
+			body = new DataMap();
+			body.put("params", params);
+		}
 
 		if (resultObj != null) {
+			if (body == null) {
+				body = new DataMap();
+			}
 			body.put("result", resultObj);
 		}
 

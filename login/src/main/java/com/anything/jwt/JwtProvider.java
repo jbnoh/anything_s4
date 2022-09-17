@@ -82,9 +82,15 @@ public class JwtProvider {
 		return result;
 	}
 
-	public Authentication getAuthentication(String token) {
+	public Authentication getAuthentication(String token) throws Exception {
 
-		UserDetails userDetails = customUserDetailService.loadUserByUsername(this.getUserId(token));
+		String userId = this.getUserId(token);
+
+		UserDetails userDetails = customUserDetailService.loadUserByUsername(userId);
+		if (userDetails == null) {
+			throw new Exception(String.format("User does not exist [USER: %s]", userId));
+		}
+
 		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	}
 

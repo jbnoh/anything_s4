@@ -16,28 +16,31 @@ public class RequestUtil {
 
 	public static DataMap getParams(HttpServletRequest request) {
 
-		DataMap data = new DataMap();
+		DataMap result = null;
 
 		String contentType = request.getContentType();
 
 		if (StringUtils.isNotBlank(contentType) && contentType.contains(MediaType.APPLICATION_JSON_VALUE)) {
+			result = new DataMap();
 
 			try {
-				data.putJsonString(IOUtils.toString(request.getReader()));
+				result.putJsonString(IOUtils.toString(request.getReader()));
 
 				/**
 				 * 이슈: No serializer found for class org.json.JSONArray and no properties discovered to create BeanSerializer
 				 * 해결: JSONArray to String Array
 				 */
-				for (Object key : data.keySet()) {
-					Object obj = data.get(key);
+				for (Object key : result.keySet()) {
+					Object obj = result.get(key);
 					if (obj instanceof JSONArray) {
 						String[] strArray = ((JSONArray) obj).join(",").split(",");
-						data.put(key, strArray);
+						result.put(key, strArray);
 					}
 				}
 			} catch (Exception e) {}
 		} else {
+			result = new DataMap();
+
 			Enumeration<String> keys = request.getParameterNames();
 			while (keys.hasMoreElements()) {
 				String key = keys.nextElement();
@@ -48,19 +51,19 @@ public class RequestUtil {
 				}
 
 				if (values.length > 1) {
-					data.put(key, Arrays.asList(values));
+					result.put(key, Arrays.asList(values));
 				} else {
 					String value = values[0];
 
 					if (StringUtils.isNumeric(value)) {
-						data.put(key, Integer.parseInt(value));
+						result.put(key, Integer.parseInt(value));
 					} else {
-						data.put(key, value);
+						result.put(key, value);
 					}
 				}
 			}
 		}
 
-		return data;
+		return result;
 	}
 }

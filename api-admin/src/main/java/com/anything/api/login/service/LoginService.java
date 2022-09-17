@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.anything.dto.login.LoginDTO;
+import com.anything.dto.login.LoginParamDTO;
 import com.anything.exception.CustomException;
 import com.anything.properties.ApicallLoginProp;
 import com.anything.response.ApiResponse;
@@ -34,18 +34,18 @@ public class LoginService {
 	/**
 	 * 로그인
 	 * 
-	 * @param loginDto
+	 * @param loginParamDto
 	 * @return
 	 * @throws Exception
 	 */
-	public ResponseEntity<?> login(LoginDTO loginDto) throws Exception {
+	public ResponseEntity<?> login(LoginParamDTO loginParamDto) throws Exception {
 
 		HttpHeaders headers = HttpHeaderUtil.builder()
 				.contentType(MediaType.APPLICATION_JSON)
 				.build();
 
-		ResponseEntity<?> response = apiService.post(apicallLoginProp.getLogin(), headers, loginDto);
-		adminCheck(response, loginDto.getUserId());
+		ResponseEntity<?> response = apiService.post(apicallLoginProp.getLogin(), headers, loginParamDto);
+		adminCheck(response, loginParamDto.getUserId());
 
 		return response;
 	}

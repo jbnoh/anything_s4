@@ -10,8 +10,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-import com.anything.vo.DataMap;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -21,15 +19,13 @@ public class AuthenticationEntryPointHandler implements AuthenticationEntryPoint
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 
-		DataMap json = new DataMap();
-		json.put("status", 401);
-		json.put("message", authException.getMessage());
+		String message = authException.getMessage();
 
-		log.error(json.toString(), authException);
+		log.error(message, authException);
 
 		response.setContentType("application/json;charset=UTF-8");
 		response.setCharacterEncoding("utf-8");
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		response.getWriter().print(json);
+		response.getWriter().print(message);
 	}
 }

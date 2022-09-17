@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.anything.jpa.BaseEntity;
 import com.anything.jpa.user.entity.UserEntity;
 import com.anything.type.impl.StatusType;
@@ -48,6 +50,18 @@ public class OrganEntity extends BaseEntity {
 
 	@OneToMany(mappedBy = "organEntity", cascade = CascadeType.REMOVE)
 	private List<UserEntity> userEntity;
+
+	public void updateOrganName(String organName) {
+		if (StringUtils.isNotBlank(organName)) {
+			this.organName = organName;
+		}
+	}
+
+	public void updateStatus(StatusType status) {
+		if (status != null) {
+			this.status = status;
+		}
+	}
 
 	@Builder
 	public OrganEntity(

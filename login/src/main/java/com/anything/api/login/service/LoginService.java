@@ -9,7 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.anything.dto.login.LoginDTO;
+import com.anything.dto.login.LoginParamDTO;
 import com.anything.jpa.user.entity.UserEntity;
 import com.anything.jpa.user.entity.embeddable.UserAuthEm;
 import com.anything.jpa.user.repository.UserRepository;
@@ -37,12 +37,12 @@ public class LoginService {
 		return detail.getUsername(); 
 	}
 
-	public JwtDTO login(LoginDTO loginDto) throws Exception {
+	public JwtDTO login(LoginParamDTO loginParamDto) throws Exception {
 
 		Authentication auth = null;
 
 		try {
-			auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUserId(), loginDto.getUserPw()));
+			auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginParamDto.getUserId(), loginParamDto.getUserPw()));
 
 		} catch (AuthenticationException e) {
 			throw e;

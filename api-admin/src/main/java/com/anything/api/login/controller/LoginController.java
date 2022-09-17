@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anything.api.login.service.LoginService;
-import com.anything.dto.login.LoginDTO;
+import com.anything.dto.login.LoginParamDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,9 +26,9 @@ public class LoginController {
 	private final LoginService loginService;
 
 	@PostMapping
-	public ResponseEntity<?> login(@RequestBody LoginDTO loginDto) throws Exception {
+	public ResponseEntity<?> login(@RequestBody LoginParamDTO param) throws Exception {
 
-		return loginService.login(loginDto);
+		return loginService.login(param);
 	}
 
 	@PostMapping("/refresh")

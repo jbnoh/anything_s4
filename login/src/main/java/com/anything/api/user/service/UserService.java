@@ -37,7 +37,9 @@ public class UserService {
 
 		if (opUser.isPresent()) {
 			UserEntity user = opUser.get();
-			user.updateUserPw(passwordEncoder.encode(userParamDTO.getUserPw()));
+			try {
+				user.updateUserPw(passwordEncoder.encode(userParamDTO.getUserPw()));
+			} catch (Exception e) {}
 			user.updateUserName(userParamDTO.getUserName());
 			user.updateUserType(userParamDTO.getUserType());
 
