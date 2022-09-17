@@ -9,6 +9,4 @@ import com.anything.jpa.user.entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
 	public Optional<UserEntity> findByUserId(String userId);
-
-	public UserEntity findByUserAuthEmRefreshToken(String refreshToken);
 }
