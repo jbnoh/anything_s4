@@ -1,22 +1,115 @@
-plugins {
-	id 'org.springframework.boot' version '2.7.3'
-	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
-	id 'java'
+buildscript {
+	ext {
+		springBootVersion = '2.7.3'
+	}
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath ("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "io.spring.gradle:dependency-management-plugin:1.0.13.RELEASE"
+	}
 }
 
-group = 'com'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+subprojects {
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'java'
+	apply plugin: 'war'
 
-repositories {
-	mavenCentral()
+	group = 'com'
+	version = '1.0.0-SNAPSHOT'
+	sourceCompatibility = JavaVersion.VERSION_17
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+	}
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+		implementation 'org.modelmapper:modelmapper:2.4.4'
+		implementation 'org.slf4j:jcl-over-slf4j'
+		implementation 'ch.qos.logback:logback-classic'
+		implementation 'org.json:org.json:chargebee-1.0'
+		implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+		implementation 'org.apache.commons:commons-lang3:3.12.0'
+		implementation 'commons-io:commons-io:2.11.0'
+	}
+
+	test {
+		useJUnitPlatform()
+	}
+
+	task initSourceFolders {
+		sourceSets*.java.srcDirs*.each {
+			if(! it.exists()) {
+				it.mkdirs()
+			}
+		}
+
+		sourceSets*.resources.srcDirs*.each {
+			if(! it.exists()) {
+				it.mkdirs()
+			}
+		}
+	}
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+project(':common') {
+	bootJar {
+		enabled = false
+	}
+	jar {
+		enabled = true
+	}
+
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-aop'
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+		implementation 'io.swagger:swagger-annotations:1.6.6'
+
+		implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+
+		implementation 'org.postgresql:postgresql:42.4.0'
+	}
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+project(':api-admin') {
+	dependencies {
+		implementation project(':common')
+
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+		implementation 'io.springfox:springfox-boot-starter:3.0.0'
+		implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	}
+}
+
+project(':api-user') {
+	dependencies {
+		implementation project(':common')
+
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+		implementation 'io.springfox:springfox-boot-starter:3.0.0'
+		implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	}
 }
