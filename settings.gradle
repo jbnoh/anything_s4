@@ -1,4 +1,5 @@
 rootProject.name = 'anything_s4'
 include 'common'
+include 'login'
 include 'api-admin'
 include 'api-user'

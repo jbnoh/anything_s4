@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 9090
 
 spring:
   # DATASOURCE
@@ -18,18 +18,10 @@ spring:
       auto-commit: false
       data-source-properties:
         rewriteBatchedStatements: true
-  sql:
-    init:
-      mode: never
-      data-locations: classpath:sql/init.sql
 
   # JPA
   jpa:
-    generate-ddl: false
-    hibernate:
-      ddl-auto: none
     show-sql: true
-    defer-datasource-initialization: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -43,11 +35,7 @@ spring:
 
 ---
 
-app:
-  apicall:
-    login:
-      url: http://localhost:9090
-      user-save: ${app.apicall.login.url}/api/user/save
-      login: ${app.apicall.login.url}/api/login
-      token-refresh: ${app.apicall.login.url}/api/login/refresh
-      token-check: ${app.apicall.login.url}/api/login/token
+jwt:
+  secretKey: 1a2b3c4d5e6f7g
+  accessExpire: 30
+  refreshExpire: 60
