@@ -80,8 +80,8 @@ project(':common') {
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter-aop'
 
-		implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
 		implementation 'io.swagger:swagger-annotations:1.6.6'
+		implementation 'com.h2database:h2'
 	}
 }
 
