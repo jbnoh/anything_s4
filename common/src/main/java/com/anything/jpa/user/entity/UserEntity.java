@@ -22,7 +22,6 @@ import com.anything.jpa.BaseEntity;
 import com.anything.jpa.organ.entity.OrganEntity;
 import com.anything.jpa.user.entity.embeddable.UserAuthEm;
 import com.anything.type.impl.UserType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -41,7 +40,6 @@ import lombok.NoArgsConstructor;
 public class UserEntity extends BaseEntity {
 
 	@Column(name = "SEQ")
-	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long seq;

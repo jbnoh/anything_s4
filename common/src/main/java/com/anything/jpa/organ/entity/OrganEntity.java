@@ -18,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.anything.jpa.BaseEntity;
 import com.anything.jpa.user.entity.UserEntity;
 import com.anything.type.impl.StatusType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,7 +36,6 @@ import lombok.NoArgsConstructor;
 public class OrganEntity extends BaseEntity {
 
 	@Column(name = "SEQ")
-	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long seq;
