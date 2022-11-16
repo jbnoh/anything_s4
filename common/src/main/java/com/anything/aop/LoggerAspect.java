@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -15,12 +16,16 @@ import com.anything.utils.RequestUtil;
 import com.anything.vo.DataMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class LoggerAspect {
+
+	private final MessageSourceAccessor messageSource;
 
 	@Around("within(com.anything.api..*) and "
 			+ "@annotation(org.springframework.web.bind.annotation.GetMapping) or "
@@ -28,6 +33,8 @@ public class LoggerAspect {
 			+ "@annotation(org.springframework.web.bind.annotation.PutMapping) or "
 			+ "@annotation(org.springframework.web.bind.annotation.DeleteMapping)")
 	public Object logAction(ProceedingJoinPoint joinPoint) throws Throwable {
+
+		log.debug(messageSource.getMessage("message.debug"));
 
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 
