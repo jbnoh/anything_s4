@@ -7,11 +7,17 @@ import java.util.Set;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.anything.swagger.rule.Page;
+import com.fasterxml.classmate.TypeResolver;
+
+import lombok.RequiredArgsConstructor;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
@@ -22,12 +28,18 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 @EnableWebMvc
+@RequiredArgsConstructor
 public class SwaggerConfig {
+
+	private final TypeResolver typeResolver;
 
 	@Bean
 	public Docket swaggerApi() {
 
 		return new Docket(DocumentationType.SWAGGER_2)
+				.alternateTypeRules(
+						AlternateTypeRules.newRule(typeResolver.resolve(Pageable.class), typeResolver.resolve(Page.class))
+				)
 				.consumes(getConsumeContentTypes())
 				.produces(getProduceContentTypes())
 				.apiInfo(swaggerInfo())
