@@ -1,6 +1,20 @@
 server:
   port: 8080
 
+logging:
+  level:
+    root: info
+    org:
+      hibernate:
+        SQL: debug
+        type: debug
+  file:
+    name: logs/user.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}-%i.log
+      max-file-size: 1GB
+
 spring:
   # DATASOURCE
   datasource:
@@ -32,6 +46,10 @@ spring:
         order_inserts: true
         order_updates: true
         format_sql: true
+
+mybatis:
+  mapper-locations: mapper/**/*.xml
+  type-aliases-package: com.anything.mybatis.**
 
 ---
 

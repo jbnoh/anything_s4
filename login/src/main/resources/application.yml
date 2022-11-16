@@ -1,6 +1,20 @@
 server:
   port: 9090
 
+logging:
+  level:
+    root: info
+    org:
+      hibernate:
+        SQL: debug
+        type: debug
+  file:
+    name: logs/login.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}-%i.log
+      max-file-size: 1GB
+
 spring:
   # DATASOURCE
   datasource:
