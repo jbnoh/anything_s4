@@ -16,12 +16,11 @@ public class RequestUtil {
 
 	public static DataMap getParams(HttpServletRequest request) {
 
-		DataMap result = null;
+		DataMap result = new DataMap();
 
 		String contentType = request.getContentType();
 
 		if (StringUtils.isNotBlank(contentType) && contentType.contains(MediaType.APPLICATION_JSON_VALUE)) {
-			result = new DataMap();
 
 			try {
 				result.putJsonString(IOUtils.toString(request.getReader()));
@@ -39,8 +38,6 @@ public class RequestUtil {
 				}
 			} catch (Exception e) {}
 		} else {
-			result = new DataMap();
-
 			Enumeration<String> keys = request.getParameterNames();
 			while (keys.hasMoreElements()) {
 				String key = keys.nextElement();

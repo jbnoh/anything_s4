@@ -1,4 +1,4 @@
-package com.anything.config;
+package com.anything.config.resttpl;
 
 import java.nio.charset.Charset;
 import java.time.Duration;
