@@ -74,3 +74,7 @@ app:
       login: ${app.apicall.login.url}/api/login
       token-refresh: ${app.apicall.login.url}/api/login/refresh
       token-check: ${app.apicall.login.url}/api/login/token
+  async:
+    core-pool-size: 3
+    max-pool-size: 30
+    queue-capacity: 100
