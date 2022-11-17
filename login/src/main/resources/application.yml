@@ -50,6 +50,6 @@ spring:
 ---
 
 jwt:
-  secretKey: 1a2b3c4d5e6f7g
-  accessExpire: 30
-  refreshExpire: 60
+  secret-key: 1a2b3c4d5e6f7g
+  access-expire: 30
+  refresh-expire: 60

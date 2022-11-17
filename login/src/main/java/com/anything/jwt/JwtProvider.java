@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.anything.jwt.dto.TokenValueDTO;
 import com.anything.jwt.service.CustomUserDetailService;
+import com.anything.properties.JwtProp;
 import com.anything.type.DefaultType.JwtType;
 import com.anything.vo.DataMap;
 
@@ -26,14 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtProvider {
 
-	@Value("${jwt.secretKey}")
-	private String secretKey;
-
-	@Value("${jwt.accessExpire}")
-	private long accessExpire;
-
-	@Value("${jwt.refreshExpire}")
-	private long refreshExpire;
+	private final JwtProp jwtProp;
 
 	private final Map<String, Object> jwtHeader = new HashMap<>();
 	{
@@ -49,13 +42,13 @@ public class JwtProvider {
 		payloads.put("userId", tokenValDto.getUserId());
 
 		Date expiration = new Date();
-		expiration.setTime(expiration.getTime() + (accessExpire * 60 * 1000L));
+		expiration.setTime(expiration.getTime() + (jwtProp.getAccessExpire() * 60 * 1000L));
 
 		String jwt = Jwts.builder()
 				.setHeader(jwtHeader)
 				.setClaims(payloads)
 				.setExpiration(expiration)
-				.signWith(SignatureAlgorithm.HS256, secretKey)
+				.signWith(SignatureAlgorithm.HS256, jwtProp.getSecretKey())
 				.compact();
 
 		return jwt;
@@ -67,13 +60,13 @@ public class JwtProvider {
 		payloads.put("userId", tokenValDto.getUserId());
 
 		Date expiration = new Date();
-		expiration.setTime(expiration.getTime() + (refreshExpire * 60 * 1000L));
+		expiration.setTime(expiration.getTime() + (jwtProp.getRefreshExpire() * 60 * 1000L));
 
 		String jwt = Jwts.builder()
 				.setHeader(jwtHeader)
 				.setClaims(payloads)
 				.setExpiration(expiration)
-				.signWith(SignatureAlgorithm.HS256, secretKey)
+				.signWith(SignatureAlgorithm.HS256, jwtProp.getSecretKey())
 				.compact();
 
 		DataMap result = new DataMap();
@@ -96,7 +89,7 @@ public class JwtProvider {
 
 	public Claims getBody(String token) {
 
-		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+		return Jwts.parser().setSigningKey(jwtProp.getSecretKey()).parseClaimsJws(token).getBody();
 	}
 
 	public String getUserId(String token) {
@@ -112,7 +105,7 @@ public class JwtProvider {
 	public boolean validateJwtToken(String token) {
 
 		try {
-			Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+			Jwts.parser().setSigningKey(jwtProp.getSecretKey()).parseClaimsJws(token);
 		} catch (Exception e) {
 			throw e;
 		}
