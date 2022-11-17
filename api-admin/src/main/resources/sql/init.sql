@@ -1,2 +1,2 @@
-INSERT INTO a_organ (seq, organ_name, status) VALUES (1, 'test', 'A');
+INSERT INTO a_organ (organ_name, status) VALUES ('test', 'A');
 INSERT INTO a_user (organ_seq, user_id, user_pw, user_name, user_type) VALUES (1, 'admin', '$2a$10$XfJ4LVdua53pumZ.6by8ieoyWOdqkB.0tMrpy50o.QOcgfaUZTht6', '관리자', 'A');
