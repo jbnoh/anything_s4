@@ -84,6 +84,8 @@ project(':common') {
 
 		implementation 'io.swagger:swagger-annotations:1.6.6'
 		implementation 'com.h2database:h2'
+
+		implementation 'org.springframework.boot:spring-boot-starter-mail'
 	}
 }
 

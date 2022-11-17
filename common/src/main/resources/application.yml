@@ -1,0 +1,14 @@
+spring:
+  mail:
+    username: cw1323@naver.com
+    password: 123456
+    host: smtp.naver.com
+    port: 587
+    properties.mail:
+      debug: true
+      smtp:
+        auth: true
+        starttls.enable: true
+        ssl:
+          enable: true
+          protocols: TLSv1.2
